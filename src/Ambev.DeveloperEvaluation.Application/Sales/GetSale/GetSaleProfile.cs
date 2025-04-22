@@ -20,7 +20,7 @@ public class GetSaleProfile : Profile
                }))
                .ForMember(dest => dest.SaleProducts, opt => opt.MapFrom(src => src.SaleProducts.Select(item => new GetSaleProductResult
                {
-                   ProductId = item.Id,
+                   ProductId = item.ProductId,
                    ProductName = item.Product.ProductName,
                    Quantity = item.Quantity,
                    Discount = item.Discount,

@@ -159,33 +159,27 @@ public class SalesController : BaseController
         }
     }
 
-
-    /// <summary>
-    /// Cancels a sale by its ID
-    /// </summary>
-    /// <param name="id">The unique identifier of the sale to cancel</param>
-    /// <param name="cancellationToken">Cancellation token</param>
-    /// <returns>Success response if the sale was canceled</returns>
-    [HttpDelete("{id}")]
+    [HttpPut("{id}/products/{productId}")]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> CancelSale([FromRoute] Guid id, CancellationToken cancellationToken)
+    public async Task<IActionResult> UpdateSaleProduct([FromRoute] Guid id, [FromRoute] Guid productId, [FromBody] UpdateSaleProductRequest request, CancellationToken cancellationToken)
     {
-        var request = new CancelSaleRequest { Id = id };
-        var validator = new CancelSaleRequestValidator();
+        request.SaleId = id;
+        request.ProductId = productId;
+        var validator = new UpdateSaleProductRequestValidator();
         var validationResult = await validator.ValidateAsync(request, cancellationToken);
 
         if (!validationResult.IsValid)
             return BadRequest(validationResult.Errors);
 
-        var command = _mapper.Map<CancelSaleCommand>(request.Id);
+        var command = _mapper.Map<UpdateSaleProductCommand>(request);
         await _mediator.Send(command, cancellationToken);
 
         return Ok(new ApiResponse
         {
             Success = true,
-            Message = "Sale canceled successfully"
+            Message = "Sale product update successfully"
         });
     }
 
@@ -218,7 +212,7 @@ public class SalesController : BaseController
         return Ok(new ApiResponse
         {
             Success = true,
-            Message = "Item added to sale successfully"
+            Message = "Product added to sale successfully"
         });
     }
 
@@ -241,30 +235,36 @@ public class SalesController : BaseController
         return Ok(new ApiResponse
         {
             Success = true,
-            Message = "Sale canceled successfully"
+            Message = "Sale product canceled successfully"
         });
     }
 
-    [HttpPut("{id}/products/{productId}")]
+    /// <summary>
+    /// Cancels a sale by its ID
+    /// </summary>
+    /// <param name="id">The unique identifier of the sale to cancel</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>Success response if the sale was canceled</returns>
+    [HttpDelete("{id}")]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> UpdateSaleProduct([FromRoute] Guid id, [FromRoute] Guid productId, [FromBody] UpdateSaleProductRequest request, CancellationToken cancellationToken)
+    public async Task<IActionResult> CancelSale([FromRoute] Guid id, CancellationToken cancellationToken)
     {
-        request.SaleId = id;
-        var validator = new UpdateSaleProductRequestValidator();
+        var request = new CancelSaleRequest { Id = id };
+        var validator = new CancelSaleRequestValidator();
         var validationResult = await validator.ValidateAsync(request, cancellationToken);
 
         if (!validationResult.IsValid)
             return BadRequest(validationResult.Errors);
 
-        var command = _mapper.Map<UpdateSaleProductCommand>(request);
+        var command = _mapper.Map<CancelSaleCommand>(request.Id);
         await _mediator.Send(command, cancellationToken);
 
         return Ok(new ApiResponse
         {
             Success = true,
-            Message = "Sale product update successfully"
+            Message = "Sale canceled successfully"
         });
     }
 }

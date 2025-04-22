@@ -50,7 +50,10 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
                 ProductId = productId;
 
             if (quantity > 0)
+            {
                 Quantity = quantity;
+                Discount = CalculateDiscount(quantity);
+            }
         }
     }
 }

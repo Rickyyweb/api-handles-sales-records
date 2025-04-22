@@ -4,7 +4,6 @@ using Ambev.DeveloperEvaluation.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 using System.Linq.Expressions;
-using System.Threading;
 
 namespace Ambev.DeveloperEvaluation.ORM.Repositories
 {
