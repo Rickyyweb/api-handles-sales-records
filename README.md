@@ -2,6 +2,7 @@
 # Developer Evaluation Project - Henrique Fernandes
 
 Este projeto foi desenvolvido como parte de um desafio técnico da equipe DeveloperStore, focado em aplicar arquitetura DDD, padrões modernos de desenvolvimento, e boas práticas de organização e testes.
+Fiz algumas rotas a mais, pensando em facilitar o uso do frontend, caso fosse uma aplicação real. E também para facilitar o avaliador do teste, evitando que ele precisasse ir diversas vezes ao banco de dados para pegar os dados.
 
 ## ✅ O que foi implementado
 
